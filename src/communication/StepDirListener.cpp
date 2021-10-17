@@ -1,6 +1,6 @@
 #include "StepDirListener.h"
 
-StepDirListener::StepDirListener(int _pinStep, int _pinDir, float _counter_to_value){
+StepDirListener::StepDirListener(pin_size_t _pinStep, pin_size_t _pinDir, float _counter_to_value){
     pin_step = _pinStep;
     pin_dir = _pinDir;
     counter_to_value = _counter_to_value;

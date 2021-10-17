@@ -9,6 +9,14 @@
 #define _constrain(amt,low,high) ((amt)<(low)?(low):((amt)>(high)?(high):(amt)))
 #define _sqrt(a) (_sqrtApprox(a))
 #define _isset(a) ( (a) != (NOT_SET) )
+#ifdef EXTENDED_PIN_MODE
+#define _ispinset(a) ( (a)  != (PIN_NOT_SET) )
+#elif ARDUINO //TODO: CHANGE
+#define _ispinset(a) ( (a)  != (PIN_NOT_SET) )
+#else
+#define _ispinset(a) ( ( (a.port)  != (PIN_NOT_SET_PORT) ) || ( (a.pin)  != (PIN_NOT_SET_PIN) ) )
+#endif
+
 #define _UNUSED(v) (void) (v)
 
 // utility defines

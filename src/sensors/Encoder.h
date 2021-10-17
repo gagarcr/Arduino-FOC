@@ -24,7 +24,7 @@ class Encoder: public Sensor{
     @param ppr  impulses per rotation  (cpr=ppr*4)
     @param index index pin number (optional input)
     */
-    Encoder(int encA, int encB , float ppr, int index = 0);
+    Encoder(pin_size_t encA, pin_size_t encB , float ppr, pin_size_t index = PIN_NOT_SET);
 
     /** encoder initialise pins */
     void init() override;
@@ -49,9 +49,9 @@ class Encoder: public Sensor{
     
     
     // pins A and B
-    int pinA; //!< encoder hardware pin A
-    int pinB; //!< encoder hardware pin B
-    int index_pin; //!< index pin
+    pin_size_t pinA; //!< encoder hardware pin A
+    pin_size_t pinB; //!< encoder hardware pin B
+    pin_size_t index_pin; //!< index pin
 
     // Encoder configuration
     Pullup pullup; //!< Configuration parameter internal or external pullups

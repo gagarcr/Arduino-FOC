@@ -14,13 +14,13 @@ class MagneticSensorPWM: public Sensor{
     * MagneticSensorPWM class constructor
     * @param _pinPWM the pin to read the PWM sensor input signal
     */
-    MagneticSensorPWM(uint8_t _pinPWM,int _min = 0, int _max = 0);
+    MagneticSensorPWM(pin_size_t _pinPWM,int _min = 0, int _max = 0);
 
 
     // initialize the sensor hardware
     void init();
 
-    int pinPWM;
+    pin_size_t pinPWM;
 
     // get current angle (rad)
     float getSensorAngle() override;

@@ -1,6 +1,6 @@
 #include "BLDCDriver3PWM.h"
 
-BLDCDriver3PWM::BLDCDriver3PWM(int phA, int phB, int phC, int en1, int en2, int en3){
+BLDCDriver3PWM::BLDCDriver3PWM(pin_size_t phA, pin_size_t phB, pin_size_t phC, pin_size_t en1, pin_size_t en2, pin_size_t en3){
   // Pin initialization
   pwmA = phA;
   pwmB = phB;
@@ -21,9 +21,9 @@ BLDCDriver3PWM::BLDCDriver3PWM(int phA, int phB, int phC, int en1, int en2, int 
 // enable motor driver
 void  BLDCDriver3PWM::enable(){
     // enable_pin the driver - if enable_pin pin available
-    if ( _isset(enableA_pin) ) digitalWrite(enableA_pin, enable_active_high);
-    if ( _isset(enableB_pin) ) digitalWrite(enableB_pin, enable_active_high);
-    if ( _isset(enableC_pin) ) digitalWrite(enableC_pin, enable_active_high);
+    if ( _ispinset(enableA_pin) ) digitalWrite(enableA_pin, enable_active_high);
+    if ( _ispinset(enableB_pin) ) digitalWrite(enableB_pin, enable_active_high);
+    if ( _ispinset(enableC_pin) ) digitalWrite(enableC_pin, enable_active_high);
     // set zero to PWM
     setPwm(0,0,0);
 }
@@ -34,22 +34,47 @@ void BLDCDriver3PWM::disable()
   // set zero to PWM
   setPwm(0, 0, 0);
   // disable the driver - if enable_pin pin available
-  if ( _isset(enableA_pin) ) digitalWrite(enableA_pin, !enable_active_high);
-  if ( _isset(enableB_pin) ) digitalWrite(enableB_pin, !enable_active_high);
-  if ( _isset(enableC_pin) ) digitalWrite(enableC_pin, !enable_active_high);
+  if ( _ispinset(enableA_pin) ) digitalWrite(enableA_pin, !enable_active_high);
+  if ( _ispinset(enableB_pin) ) digitalWrite(enableB_pin, !enable_active_high);
+  if ( _ispinset(enableC_pin) ) digitalWrite(enableC_pin, !enable_active_high);
 
 }
 
+#include "skm_configuration.h"
+
 // init hardware pins
 int BLDCDriver3PWM::init() {
+
+pin_size_t reset;
+reset.port = SKM_MOTOR0_RESET_PORT;
+reset.pin = SKM_MOTOR0_RESET_PIN;
+
+pinMode(reset, OUTPUT);
+digitalWrite(reset, SKM_MOTOR0_RESET_IDLE);
+
+
+
   // PWM pins
   pinMode(pwmA, OUTPUT);
   pinMode(pwmB, OUTPUT);
   pinMode(pwmC, OUTPUT);
-  if( _isset(enableA_pin)) pinMode(enableA_pin, OUTPUT);
-  if( _isset(enableB_pin)) pinMode(enableB_pin, OUTPUT);
-  if( _isset(enableC_pin)) pinMode(enableC_pin, OUTPUT);
+  if( _ispinset(enableA_pin)) pinMode(enableA_pin, OUTPUT);
+  if( _ispinset(enableB_pin)) pinMode(enableB_pin, OUTPUT);
+  if( _ispinset(enableC_pin)) pinMode(enableC_pin, OUTPUT);
 
+  digitalWrite(pwmA, LOW);
+  digitalWrite(pwmB, LOW);
+  digitalWrite(pwmC, LOW);
+
+
+  digitalWrite(enableA_pin, HIGH);
+  digitalWrite(enableB_pin, HIGH);
+  digitalWrite(enableC_pin, HIGH);
+
+  while(0)
+  {
+
+  }
 
   // sanity check for the voltage limit configuration
   if(!_isset(voltage_limit) || voltage_limit > voltage_power_supply) voltage_limit =  voltage_power_supply;
@@ -66,7 +91,7 @@ int BLDCDriver3PWM::init() {
 // Set voltage to the pwm pin
 void BLDCDriver3PWM::setPhaseState(int sa, int sb, int sc) {
   // disable if needed
-  if( _isset(enableA_pin) &&  _isset(enableB_pin)  && _isset(enableC_pin) ){
+  if( _ispinset(enableA_pin) &&  _ispinset(enableB_pin)  && _ispinset(enableC_pin) ){
     digitalWrite(enableA_pin, sa == _HIGH_IMPEDANCE ? LOW : HIGH);
     digitalWrite(enableB_pin, sb == _HIGH_IMPEDANCE ? LOW : HIGH);
     digitalWrite(enableC_pin, sc == _HIGH_IMPEDANCE ? LOW : HIGH);

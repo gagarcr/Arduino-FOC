@@ -31,7 +31,7 @@ MagneticSensorSPIConfig_s MA730_SPI = {
 //  cs              - SPI chip select pin
 //  _bit_resolution   sensor resolution bit number
 // _angle_register  - (optional) angle read register - default 0x3FFF
-MagneticSensorSPI::MagneticSensorSPI(int cs, float _bit_resolution, int _angle_register){
+MagneticSensorSPI::MagneticSensorSPI(pin_size_t cs, float _bit_resolution, int _angle_register){
 
   chip_select_pin = cs;
   // angle read register of the magnetic sensor
@@ -47,7 +47,7 @@ MagneticSensorSPI::MagneticSensorSPI(int cs, float _bit_resolution, int _angle_r
   data_start_bit = 13; // for backwards compatibilty
 }
 
-MagneticSensorSPI::MagneticSensorSPI(MagneticSensorSPIConfig_s config, int cs){
+MagneticSensorSPI::MagneticSensorSPI(MagneticSensorSPIConfig_s config, pin_size_t cs){
   chip_select_pin = cs;
   // angle read register of the magnetic sensor
   angle_register = config.angle_register ? config.angle_register : DEF_ANGLE_REGISTER;

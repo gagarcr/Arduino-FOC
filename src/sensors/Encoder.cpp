@@ -8,7 +8,7 @@
   - index pin     - (optional input)
 */
 
-Encoder::Encoder(int _encA, int _encB , float _ppr, int _index){
+Encoder::Encoder(pin_size_t _encA, pin_size_t _encB , float _ppr, pin_size_t _index){
 
   // Encoder measurement structure init
   // hardware pins
@@ -173,7 +173,9 @@ int Encoder::needsSearch(){
 
 // private function used to determine if encoder has index
 int Encoder::hasIndex(){
-  return index_pin != 0;
+  //TODO: fix
+  return 0;
+  //return index_pin != 0;
 }
 
 

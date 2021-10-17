@@ -2,14 +2,14 @@
 
 // if the mcu doen't have defiend analogWrite
 #if defined(ESP_H) && defined(ARDUINO_ARCH_ESP32)
-  __attribute__((weak)) void analogWrite(uint8_t pin, int value){ };
+  __attribute__((weak)) void analogWrite(pin_size_t pin, int value){ };
 #endif
 
 // function setting the high pwm frequency to the supplied pins
 // - Stepper motor - 2PWM setting
 // - hardware speciffic
 // in generic case dont do anything
-__attribute__((weak)) void* _configure2PWM(long pwm_frequency,const int pinA, const int pinB) {
+__attribute__((weak)) void* _configure2PWM(long pwm_frequency,const pin_size_t pinA, const pin_size_t pinB) {
   GenericDriverParams* params = new GenericDriverParams {
     .pins = { pinA, pinB },
     .pwm_frequency = pwm_frequency

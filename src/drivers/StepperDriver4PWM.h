@@ -22,7 +22,7 @@ class StepperDriver4PWM: public StepperDriver
       @param en1 enable pin phase 1 (optional input)
       @param en2 enable pin phase 2 (optional input)
     */
-    StepperDriver4PWM(int ph1A,int ph1B,int ph2A,int ph2B, int en1 = NOT_SET, int en2 = NOT_SET);
+    StepperDriver4PWM(pin_size_t ph1A,pin_size_t ph1B,pin_size_t ph2A,pin_size_t ph2B, pin_size_t en1 = PIN_NOT_SET, pin_size_t en2 = PIN_NOT_SET);
     
     /**  Motor hardware init function */
   	int init() override;
@@ -32,12 +32,12 @@ class StepperDriver4PWM: public StepperDriver
     void enable() override;
 
     // hardware variables
-  	int pwm1A; //!< phase 1A pwm pin number
-  	int pwm1B; //!< phase 1B pwm pin number
-  	int pwm2A; //!< phase 2A pwm pin number
-    int pwm2B; //!< phase 2B pwm pin number
-    int enable_pin1; //!< enable pin number phase 1
-    int enable_pin2; //!< enable pin number phase 2
+    pin_size_t pwm1A; //!< phase 1A pwm pin number
+  	pin_size_t pwm1B; //!< phase 1B pwm pin number
+  	pin_size_t pwm2A; //!< phase 2A pwm pin number
+  	pin_size_t pwm2B; //!< phase 2B pwm pin number
+    pin_size_t enable_pin1; //!< enable pin number phase 1
+    pin_size_t enable_pin2; //!< enable pin number phase 2
 
     /** 
      * Set phase voltages to the harware 

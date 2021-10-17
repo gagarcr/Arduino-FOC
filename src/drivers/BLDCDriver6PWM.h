@@ -23,7 +23,7 @@ class BLDCDriver6PWM: public BLDCDriver
       @param phC_l A phase pwm pin
       @param en enable pin (optional input)
     */
-    BLDCDriver6PWM(int phA_h,int phA_l,int phB_h,int phB_l,int phC_h,int phC_l, int en = NOT_SET);
+    BLDCDriver6PWM(pin_size_t phA_h,pin_size_t phA_l,pin_size_t phB_h,pin_size_t phB_l,pin_size_t phC_h,pin_size_t phC_l, pin_size_t en = PIN_NOT_SET);// TODO: fix: was NOT_SET);
     
     /**  Motor hardware init function */
   	int init() override;
@@ -33,10 +33,10 @@ class BLDCDriver6PWM: public BLDCDriver
     void enable() override;
 
     // hardware variables
-  	int pwmA_h,pwmA_l; //!< phase A pwm pin number
-  	int pwmB_h,pwmB_l; //!< phase B pwm pin number
-  	int pwmC_h,pwmC_l; //!< phase C pwm pin number
-    int enable_pin; //!< enable pin number
+    pin_size_t pwmA_h,pwmA_l; //!< phase A pwm pin number
+    pin_size_t pwmB_h,pwmB_l; //!< phase B pwm pin number
+    pin_size_t pwmC_h,pwmC_l; //!< phase C pwm pin number
+  	pin_size_t enable_pin; //!< enable pin number
     bool enable_active_high = true;
 
     float dead_zone; //!< a percentage of dead-time(zone) (both high and low side in low) for each pwm cycle [0,1]

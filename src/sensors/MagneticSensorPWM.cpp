@@ -6,7 +6,7 @@
  * @param _min_raw_count  the smallest expected reading
  * @param _max_raw_count  the largest expected reading
  */
-MagneticSensorPWM::MagneticSensorPWM(uint8_t _pinPWM, int _min_raw_count, int _max_raw_count){
+MagneticSensorPWM::MagneticSensorPWM(pin_size_t _pinPWM, int _min_raw_count, int _max_raw_count){
 
     pinPWM = _pinPWM;
 

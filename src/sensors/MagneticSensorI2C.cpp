@@ -119,7 +119,7 @@ int MagneticSensorI2C::read(uint8_t angle_reg_msb) {
 * Takes the sda_pin and scl_pin
 * Returns 0 for OK, 1 for other master and 2 for unfixable sda locked LOW
 */
-int MagneticSensorI2C::checkBus(byte sda_pin, byte scl_pin) {
+int MagneticSensorI2C::checkBus(pin_size_t sda_pin, pin_size_t scl_pin) {
 
   pinMode(scl_pin, INPUT_PULLUP);
   pinMode(sda_pin, INPUT_PULLUP);

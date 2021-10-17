@@ -16,13 +16,13 @@ class MagneticSensorAnalog: public Sensor{
      * MagneticSensorAnalog class constructor
      * @param _pinAnalog  the pin to read the PWM signal
      */
-    MagneticSensorAnalog(uint8_t _pinAnalog, int _min = 0, int _max = 0);
+    MagneticSensorAnalog(pin_size_t _pinAnalog, int _min = 0, int _max = 0);
     
 
     /** sensor initialise pins */
     void init();
 
-    int pinAnalog; //!< encoder hardware pin A
+    pin_size_t pinAnalog; //!< encoder hardware pin A
     
     // Encoder configuration
     Pullup pullup;

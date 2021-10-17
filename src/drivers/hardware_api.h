@@ -31,7 +31,7 @@ typedef struct GenericDriverParams {
  * 
  * @return -1 if failed, or pointer to internal driver parameters struct if successful
  */
-void* _configure2PWM(long pwm_frequency, const int pinA, const int pinB);
+void* _configure2PWM(long pwm_frequency, const pin_size_t pinA, const pin_size_t pinB);
 
 /** 
  * Configuring PWM frequency, resolution and alignment
@@ -45,7 +45,7 @@ void* _configure2PWM(long pwm_frequency, const int pinA, const int pinB);
  * 
  * @return -1 if failed, or pointer to internal driver parameters struct if successful
  */
-void* _configure3PWM(long pwm_frequency, const int pinA, const int pinB, const int pinC);
+void* _configure3PWM(long pwm_frequency, const pin_size_t pinA, const pin_size_t pinB, const pin_size_t pinC);
 
 /** 
  * Configuring PWM frequency, resolution and alignment
@@ -60,7 +60,7 @@ void* _configure3PWM(long pwm_frequency, const int pinA, const int pinB, const i
  * 
  * @return -1 if failed, or pointer to internal driver parameters struct if successful
  */
-void* _configure4PWM(long pwm_frequency, const int pin1A, const int pin1B, const int pin2A, const int pin2B);
+void* _configure4PWM(long pwm_frequency, const pin_size_t pin1A, const pin_size_t pin1B, const pin_size_t pin2A, const pin_size_t pin2B);
 
 /** 
  * Configuring PWM frequency, resolution and alignment
@@ -78,7 +78,7 @@ void* _configure4PWM(long pwm_frequency, const int pin1A, const int pin1B, const
  * 
  * @return -1 if failed, or pointer to internal driver parameters struct if successful
  */
-void* _configure6PWM(long pwm_frequency, float dead_zone, const int pinA_h, const int pinA_l,  const int pinB_h, const int pinB_l, const int pinC_h, const int pinC_l);
+void* _configure6PWM(long pwm_frequency, float dead_zone, const pin_size_t pinA_h, const pin_size_t pinA_l,  const pin_size_t pinB_h, const pin_size_t pinB_l, const pin_size_t pinC_h, const pin_size_t pinC_l);
 
 /** 
  * Function setting the duty cycle to the pwm pin (ex. analogWrite())

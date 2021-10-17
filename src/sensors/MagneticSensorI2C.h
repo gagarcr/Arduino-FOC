@@ -49,7 +49,7 @@ class MagneticSensorI2C: public Sensor{
     float getSensorAngle() override;
 
     /** experimental function to check and fix SDA locked LOW issues */
-    int checkBus(byte sda_pin , byte scl_pin );
+    int checkBus(pin_size_t sda_pin , pin_size_t scl_pin );
 
   private:
     float cpr; //!< Maximum range of the magnetic sensor

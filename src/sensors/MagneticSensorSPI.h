@@ -30,13 +30,13 @@ class MagneticSensorSPI: public Sensor{
      * @param bit_resolution   sensor resolution bit number
      * @param angle_register  (optional) angle read register - default 0x3FFF
      */
-    MagneticSensorSPI(int cs, float bit_resolution, int angle_register = 0);
+    MagneticSensorSPI(pin_size_t cs, float bit_resolution, int angle_register = 0);
     /**
      *  MagneticSensorSPI class constructor
      * @param config   SPI config
      * @param cs  SPI chip select pin
      */
-    MagneticSensorSPI(MagneticSensorSPIConfig_s config, int cs);
+    MagneticSensorSPI(MagneticSensorSPIConfig_s config, pin_size_t cs);
 
     /** sensor initialise pins */
     void init(SPIClass* _spi = &SPI);
@@ -56,7 +56,7 @@ class MagneticSensorSPI: public Sensor{
     float cpr; //!< Maximum range of the magnetic sensor
     // spi variables
     int angle_register; //!< SPI angle register to read
-    int chip_select_pin; //!< SPI chip select pin
+    pin_size_t chip_select_pin; //!< SPI chip select pin
 	  SPISettings settings; //!< SPI settings variable
     // spi functions
     /** Stop SPI communication */

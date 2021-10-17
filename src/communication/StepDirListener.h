@@ -17,7 +17,7 @@ class StepDirListener
      *  @param direction         - pin
      *  @param counter_to_value  - step counter to value
      */
-    StepDirListener(int pinStep, int pinDir, float counter_to_value = 1);
+    StepDirListener(pin_size_t pinStep, pin_size_t pinDir, float counter_to_value = 1);
     /**
      * Start listenning for step commands
      * 
@@ -44,8 +44,8 @@ class StepDirListener
     void attach(float* variable);
 
     // variables
-    int pin_step; //!< step pin
-    int pin_dir; //!< direction pin
+    pin_size_t pin_step; //!< step pin
+    pin_size_t pin_dir; //!< direction pin
     long count; //!< current counter value - should be set to 0 for homing
 
   private:

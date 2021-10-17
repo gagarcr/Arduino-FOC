@@ -19,7 +19,7 @@ class HallSensor: public Sensor{
     @param pp  pole pairs  (e.g hoverboard motor has 15pp and small gimbals often have 7pp)
     @param index index pin number (optional input)
     */
-    HallSensor(int encA, int encB, int encC, int pp);
+    HallSensor(pin_size_t encA, pin_size_t encB, pin_size_t encC, int pp);
 
     /** HallSensor initialise pins */
     void init();
@@ -44,9 +44,9 @@ class HallSensor: public Sensor{
     
     
     // pins A and B
-    int pinA; //!< HallSensor hardware pin A
-    int pinB; //!< HallSensor hardware pin B
-    int pinC; //!< HallSensor hardware pin C
+    pin_size_t pinA; //!< HallSensor hardware pin A
+    pin_size_t pinB; //!< HallSensor hardware pin B
+    pin_size_t pinC; //!< HallSensor hardware pin C
 
     // HallSensor configuration
     Pullup pullup; //!< Configuration parameter internal or external pullups

@@ -1,6 +1,6 @@
 #include "BLDCDriver6PWM.h"
 
-BLDCDriver6PWM::BLDCDriver6PWM(int phA_h,int phA_l,int phB_h,int phB_l,int phC_h,int phC_l, int en){
+BLDCDriver6PWM::BLDCDriver6PWM(pin_size_t phA_h,pin_size_t phA_l,pin_size_t phB_h,pin_size_t phB_l,pin_size_t phC_h,pin_size_t phC_l, pin_size_t en){
   // Pin initialization
   pwmA_h = phA_h;
   pwmB_h = phB_h;
@@ -25,7 +25,7 @@ BLDCDriver6PWM::BLDCDriver6PWM(int phA_h,int phA_l,int phB_h,int phB_l,int phC_h
 // enable motor driver
 void  BLDCDriver6PWM::enable(){
     // enable_pin the driver - if enable_pin pin available
-    if ( _isset(enable_pin) ) digitalWrite(enable_pin, enable_active_high);
+    if ( _ispinset(enable_pin) ) digitalWrite(enable_pin, enable_active_high);
     // set zero to PWM
     setPwm(0, 0, 0);
 }
@@ -36,7 +36,7 @@ void BLDCDriver6PWM::disable()
   // set zero to PWM
   setPwm(0, 0, 0);
   // disable the driver - if enable_pin pin available
-  if ( _isset(enable_pin) ) digitalWrite(enable_pin, !enable_active_high);
+  if ( _ispinset(enable_pin) ) digitalWrite(enable_pin, !enable_active_high);
 
 }
 
@@ -50,7 +50,7 @@ int BLDCDriver6PWM::init() {
   pinMode(pwmA_l, OUTPUT);
   pinMode(pwmB_l, OUTPUT);
   pinMode(pwmC_l, OUTPUT);
-  if(_isset(enable_pin)) pinMode(enable_pin, OUTPUT);
+  if(_ispinset(enable_pin)) pinMode(enable_pin, OUTPUT);
 
 
   // sanity check for the voltage limit configuration

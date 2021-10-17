@@ -6,7 +6,7 @@
   - hallA, hallB, hallC    - HallSensor A, B and C pins
   - pp           - pole pairs
 */
-HallSensor::HallSensor(int _hallA, int _hallB, int _hallC, int _pp){
+HallSensor::HallSensor(pin_size_t _hallA, pin_size_t _hallB, pin_size_t _hallC, int _pp){
 
   // hardware pins
   pinA = _hallA;
