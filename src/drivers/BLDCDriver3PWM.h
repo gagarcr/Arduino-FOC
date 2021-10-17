@@ -23,6 +23,13 @@ class BLDCDriver3PWM: public BLDCDriver
       @param en3 enable pin (optional input)
     */
     BLDCDriver3PWM(pin_size_t phA,pin_size_t phB,pin_size_t phC, pin_size_t en1 = PIN_NOT_SET, pin_size_t en2 = PIN_NOT_SET, pin_size_t en3 = PIN_NOT_SET); //pin_size_t en1 = NOT_SET, pin_size_t en2 = NOT_SET, pin_size_t en3 = NOT_SET);
+    BLDCDriver3PWM(pin_size_t phA,pin_size_t phB,pin_size_t phC)
+    {
+      BLDCDriver3PWM(phA, phB, phC, PIN_NOT_SET, PIN_NOT_SET, PIN_NOT_SET); //pin_size_t en1 = NOT_SET, pin_size_t en2 = NOT_SET, pin_size_t en3 = NOT_SET);
+      enableA_pin_en = false;
+      enableA_pin_en = false;
+      enableA_pin_en = false;
+    }
 
     /**  Motor hardware init function */
   	int init() override;

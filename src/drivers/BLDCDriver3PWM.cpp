@@ -40,8 +40,20 @@ void BLDCDriver3PWM::disable()
 
 }
 
+#include "skm_configuration.h"
+
 // init hardware pins
 int BLDCDriver3PWM::init() {
+
+pin_size_t reset;
+reset.port = SKM_MOTOR0_RESET_PORT;
+reset.pin = SKM_MOTOR0_RESET_PIN;
+
+pinMode(reset, OUTPUT);
+digitalWrite(reset, SKM_MOTOR0_RESET_IDLE);
+
+
+
   // PWM pins
   pinMode(pwmA, OUTPUT);
   pinMode(pwmB, OUTPUT);
@@ -49,6 +61,20 @@ int BLDCDriver3PWM::init() {
   if( _ispinset(enableA_pin)) pinMode(enableA_pin, OUTPUT);
   if( _ispinset(enableB_pin)) pinMode(enableB_pin, OUTPUT);
   if( _ispinset(enableC_pin)) pinMode(enableC_pin, OUTPUT);
+
+  digitalWrite(pwmA, LOW);
+  digitalWrite(pwmB, LOW);
+  digitalWrite(pwmC, LOW);
+
+
+  digitalWrite(enableA_pin, HIGH);
+  digitalWrite(enableB_pin, HIGH);
+  digitalWrite(enableC_pin, HIGH);
+
+  while(0)
+  {
+
+  }
 
   // sanity check for the voltage limit configuration
   if(!_isset(voltage_limit) || voltage_limit > voltage_power_supply) voltage_limit =  voltage_power_supply;
