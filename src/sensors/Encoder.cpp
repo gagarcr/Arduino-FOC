@@ -173,9 +173,7 @@ int Encoder::needsSearch(){
 
 // private function used to determine if encoder has index
 int Encoder::hasIndex(){
-  //TODO: fix
-  return 0;
-  //return index_pin != 0;
+  return index_pin != 0;
 }
 
 
