@@ -6,7 +6,7 @@
 #define _PWM_FREQUENCY_MAX 50000 // 50khz
 
 //  configure High PWM frequency
-void _setHighFrequency(const long freq, const int pin){
+void _setHighFrequency(const long freq, const pin_size_t pin){
   analogWrite(pin, 0);
   analogWriteFrequency(pin, freq);
 }
@@ -15,7 +15,7 @@ void _setHighFrequency(const long freq, const int pin){
 // function setting the high pwm frequency to the supplied pins
 // - Stepper motor - 2PWM setting
 // - hardware speciffic
-void* _configure2PWM(long pwm_frequency, const int pinA, const int pinB) {
+void* _configure2PWM(long pwm_frequency, const pin_size_t pinA, const pin_size_t pinB) {
   if(!pwm_frequency || !_isset(pwm_frequency) ) pwm_frequency = _PWM_FREQUENCY; // default frequency 25khz
   else pwm_frequency = _constrain(pwm_frequency, 0, _PWM_FREQUENCY_MAX); // constrain to 50kHz max
   _setHighFrequency(pwm_frequency, pinA);
@@ -30,7 +30,7 @@ void* _configure2PWM(long pwm_frequency, const int pinA, const int pinB) {
 // function setting the high pwm frequency to the supplied pins
 // - BLDC motor - 3PWM setting
 // - hardware speciffic
-void* _configure3PWM(long pwm_frequency,const int pinA, const int pinB, const int pinC) {
+void* _configure3PWM(long pwm_frequency, const pin_size_t pinA, const pin_size_t pinB, const pin_size_t pinC) {
   if(!pwm_frequency || !_isset(pwm_frequency) ) pwm_frequency = _PWM_FREQUENCY; // default frequency 25khz
   else pwm_frequency = _constrain(pwm_frequency, 0, _PWM_FREQUENCY_MAX); // constrain to 50kHz max
   _setHighFrequency(pwm_frequency, pinA);
@@ -46,7 +46,7 @@ void* _configure3PWM(long pwm_frequency,const int pinA, const int pinB, const in
 // function setting the high pwm frequency to the supplied pins
 // - Stepper motor - 4PWM setting
 // - hardware speciffic
-void* _configure4PWM(long pwm_frequency, const int pinA, const int pinB, const int pinC, const int pinD) {
+void* _configure4PWM(long pwm_frequency, const pin_size_t pinA, const pin_size_t pinB, const pin_size_t pinC, const pin_size_t pinD) {
   if(!pwm_frequency || !_isset(pwm_frequency) ) pwm_frequency = _PWM_FREQUENCY; // default frequency 25khz
   else pwm_frequency = _constrain(pwm_frequency, 0, _PWM_FREQUENCY_MAX); // constrain to 50kHz max
   _setHighFrequency(pwm_frequency, pinA);

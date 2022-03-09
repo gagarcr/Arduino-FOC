@@ -26,7 +26,7 @@ class SAMDCurrentSenseADCDMA
 public:
   static SAMDCurrentSenseADCDMA * getHardwareAPIInstance();
   SAMDCurrentSenseADCDMA();
-  void init(int pinA, int pinB, int pinC, int pinAREF = 42, float voltageAREF = 3.3, uint32_t adcBits = 12, uint32_t channelDMA = 3);
+  void init(pin_size_t pinA, pin_size_t pinB, pin_size_t pinC, pin_size_t pinAREF = 42, float voltageAREF = 3.3, uint32_t adcBits = 12, uint32_t channelDMA = 3);
   void startADCScan();
   bool readResults(uint16_t & a, uint16_t & b, uint16_t & c);
   float toVolts(uint16_t counts);

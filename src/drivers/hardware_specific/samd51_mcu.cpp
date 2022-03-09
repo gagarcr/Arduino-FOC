@@ -120,7 +120,7 @@ struct wo_association& getWOAssociation(EPortType port, uint32_t pin) {
 };
 
 
-EPioType getPeripheralOfPermutation(int permutation, int pin_position) {
+EPioType getPeripheralOfPermutation(int permutation, pin_size_t pin_position) {
 	return ((permutation>>pin_position)&0x01)==0x1?PIO_TCC_PDEC:PIO_TIMER_ALT;
 }
 

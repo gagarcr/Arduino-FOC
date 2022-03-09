@@ -112,7 +112,7 @@ void writeSAMDDutyCycle(tccConfiguration* info, float dc);
 void configureSAMDClock();
 void configureTCC(tccConfiguration& tccConfig, long pwm_frequency, bool negate=false, float hw6pwm=-1);
 __inline__ void syncTCC(Tcc* TCCx) __attribute__((always_inline, unused));
-EPioType getPeripheralOfPermutation(int permutation, int pin_position);
+EPioType getPeripheralOfPermutation(int permutation, pin_size_t pin_position);
 
 #ifdef SIMPLEFOC_SAMD_DEBUG
 void printTCCConfiguration(tccConfiguration& info);

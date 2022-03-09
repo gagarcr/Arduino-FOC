@@ -36,7 +36,7 @@ bool attachTCC(tccConfiguration& tccConfig) {
 
 
 
-int getPermutationNumber(int pins) {
+int getPermutationNumber(pin_size_t pins) {
 	int num = 1;
 	for (int i=0;i<pins;i++)
 		num *= NUM_PIO_TIMER_PERIPHERALS;
@@ -72,7 +72,7 @@ tccConfiguration* getTccPinConfiguration(uint8_t pin) {
 /**
  * Get the TCC channel associated with that pin
  */
-tccConfiguration getTCCChannelNr(int pin, EPioType peripheral) {
+tccConfiguration getTCCChannelNr(pin_size_t pin, EPioType peripheral) {
 	tccConfiguration result;
 	result.pin = pin;
 	result.peripheral  = peripheral;
@@ -187,7 +187,7 @@ bool checkPeripheralPermutationCompatible6(tccConfiguration& pinAh, tccConfigura
 
 
 
-int checkHardware6PWM(const int pinA_h, const int pinA_l,  const int pinB_h, const int pinB_l, const int pinC_h, const int pinC_l) {
+int checkHardware6PWM(const pin_size_t pinA_h, const pin_size_t pinA_l,  const pin_size_t pinB_h, const pin_size_t pinB_l, const pin_size_t pinC_h, const pin_size_t pinC_l) {
 	for (int i=0;i<64;i++) {
 		tccConfiguration pinAh = getTCCChannelNr(pinA_h, getPeripheralOfPermutation(i, 0));
 		tccConfiguration pinAl = getTCCChannelNr(pinA_l, getPeripheralOfPermutation(i, 1));
@@ -204,7 +204,7 @@ int checkHardware6PWM(const int pinA_h, const int pinA_l,  const int pinB_h, con
 
 
 
-int checkSoftware6PWM(const int pinA_h, const int pinA_l,  const int pinB_h, const int pinB_l, const int pinC_h, const int pinC_l) {
+int checkSoftware6PWM(const pin_size_t pinA_h, const pin_size_t pinA_l,  const pin_size_t pinB_h, const pin_size_t pinB_l, const pin_size_t pinC_h, const pin_size_t pinC_l) {
 	for (int i=0;i<64;i++) {
 		tccConfiguration pinAh = getTCCChannelNr(pinA_h, getPeripheralOfPermutation(i, 0));
 		tccConfiguration pinAl = getTCCChannelNr(pinA_l, getPeripheralOfPermutation(i, 1));
@@ -245,7 +245,7 @@ int scorePermutation(tccConfiguration pins[], uint8_t num) {
 
 
 
-int checkPermutations(uint8_t num, int pins[], bool (*checkFunc)(tccConfiguration[], uint8_t) ) {
+int checkPermutations(uint8_t num, pin_size_t pins[], bool (*checkFunc)(tccConfiguration[], uint8_t) ) {
 	tccConfiguration tccConfs[num];
 	int best = -1;
 	int bestscore = 1000000;
@@ -278,11 +278,11 @@ int checkPermutations(uint8_t num, int pins[], bool (*checkFunc)(tccConfiguratio
  * @param pinA pinA bldc driver
  * @param pinB pinB bldc driver
  */
-void* _configure2PWM(long pwm_frequency, const int pinA, const int pinB) {
+void* _configure2PWM(long pwm_frequency, const pin_size_t pinA, const pin_size_t pinB) {
 #ifdef SIMPLEFOC_SAMD_DEBUG
 	printAllPinInfos();
 #endif
-	int pins[2] = { pinA, pinB };
+	pin_size_t pins[2] = { pinA, pinB };
 	int compatibility = checkPermutations(2, pins, checkPeripheralPermutationCompatible);
 	if (compatibility<0) {
 		// no result!
@@ -377,11 +377,11 @@ void* _configure2PWM(long pwm_frequency, const int pinA, const int pinB) {
  * @param pinB pinB bldc driver
  * @param pinC pinC bldc driver
  */
-void* _configure3PWM(long pwm_frequency, const int pinA, const int pinB, const int pinC) {
+void* _configure3PWM(long pwm_frequency, const pin_size_t pinA, const pin_size_t pinB, const pin_size_t pinC) {
 #ifdef SIMPLEFOC_SAMD_DEBUG
 	printAllPinInfos();
 #endif
-	int pins[3] = { pinA, pinB, pinC };
+	pin_size_t pins[3] = { pinA, pinB, pinC };
 	int compatibility = checkPermutations(3, pins, checkPeripheralPermutationCompatible);
 	if (compatibility<0) {
 		// no result!
@@ -456,11 +456,11 @@ void* _configure3PWM(long pwm_frequency, const int pinA, const int pinB, const i
  * @param pin2A pin2A stepper driver
  * @param pin2B pin2B stepper driver
  */
-void* _configure4PWM(long pwm_frequency, const int pin1A, const int pin1B, const int pin2A, const int pin2B) {
+void* _configure4PWM(long pwm_frequency, const pin_size_t pin1A, const pin_size_t pin1B, const pin_size_t pin2A, const pin_size_t pin2B) {
 #ifdef SIMPLEFOC_SAMD_DEBUG
 	printAllPinInfos();
 #endif
-	int pins[4] = { pin1A, pin1B, pin2A, pin2B };
+	pin_size_t pins[4] = { pin1A, pin1B, pin2A, pin2B };
 	int compatibility = checkPermutations(4, pins, checkPeripheralPermutationCompatible);
 	if (compatibility<0) {
 		// no result!
@@ -558,7 +558,7 @@ void* _configure4PWM(long pwm_frequency, const int pin1A, const int pin1B, const
  *
  * @return 0 if config good, -1 if failed
  */
-void* _configure6PWM(long pwm_frequency, float dead_zone, const int pinA_h, const int pinA_l,  const int pinB_h, const int pinB_l, const int pinC_h, const int pinC_l) {
+void* _configure6PWM(long pwm_frequency, float dead_zone, const pin_size_t pinA_h, const pin_size_t pinA_l, const pin_size_t pinB_h, const pin_size_t pinB_l, const pin_size_t pinC_h, const pin_size_t pinC_l) {
 	// we want to use a TCC channel with 1 non-inverted and 1 inverted output for each phase, with dead-time insertion
 #ifdef SIMPLEFOC_SAMD_DEBUG
 	printAllPinInfos();

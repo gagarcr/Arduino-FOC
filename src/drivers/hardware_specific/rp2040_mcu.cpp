@@ -35,7 +35,7 @@ uint16_t wrapvalues[NUM_PWM_SLICES];
 
 // TODO add checks which channels are already used...
 
-void setupPWM(int pin, long pwm_frequency, bool invert, RP2040DriverParams* params, uint8_t index) {
+void setupPWM(pin_size_t pin, long pwm_frequency, bool invert, RP2040DriverParams* params, uint8_t index) {
 	gpio_set_function(pin, GPIO_FUNC_PWM);
 	uint slice = pwm_gpio_to_slice_num(pin);
 	uint chan = pwm_gpio_to_channel(pin);
@@ -81,7 +81,7 @@ void syncSlices() {
 }
 
 
-void* _configure2PWM(long pwm_frequency, const int pinA, const int pinB) {
+void* _configure2PWM(long pwm_frequency, const pin_size_t pinA, const pin_size_t pinB) {
 	RP2040DriverParams* params = new RP2040DriverParams();
 	params->pwm_frequency = pwm_frequency;
 	setupPWM(pinA, pwm_frequency, false, params, 0);
@@ -92,7 +92,7 @@ void* _configure2PWM(long pwm_frequency, const int pinA, const int pinB) {
 
 
 
-void* _configure3PWM(long pwm_frequency, const int pinA, const int pinB, const int pinC) {
+void* _configure3PWM(long pwm_frequency, const pin_size_t pinA, const pin_size_t pinB, const pin_size_t pinC) {
 	RP2040DriverParams* params = new RP2040DriverParams();
 	params->pwm_frequency = pwm_frequency;
 	setupPWM(pinA, pwm_frequency, false, params, 0);
@@ -105,7 +105,7 @@ void* _configure3PWM(long pwm_frequency, const int pinA, const int pinB, const i
 
 
 
-void* _configure4PWM(long pwm_frequency, const int pin1A, const int pin1B, const int pin2A, const int pin2B) {
+void* _configure4PWM(long pwm_frequency, const pin_size_t pin1A, const pin_size_t pin1B, const pin_size_t pin2A, const pin_size_t pin2B) {
 	RP2040DriverParams* params = new RP2040DriverParams();
 	params->pwm_frequency = pwm_frequency;
 	setupPWM(pin1A, pwm_frequency, false, params, 0);
@@ -117,7 +117,7 @@ void* _configure4PWM(long pwm_frequency, const int pin1A, const int pin1B, const
 }
 
 
-void* _configure6PWM(long pwm_frequency, float dead_zone, const int pinA_h, const int pinA_l,  const int pinB_h, const int pinB_l, const int pinC_h, const int pinC_l) {
+void* _configure6PWM(long pwm_frequency, float dead_zone, const pin_size_t pinA_h, const pin_size_t pinA_l,  const pin_size_t pinB_h, const pin_size_t pinB_l, const pin_size_t pinC_h, const pin_size_t pinC_l) {
 	// non-PIO solution...
 	RP2040DriverParams* params = new RP2040DriverParams();
 	params->pwm_frequency = pwm_frequency;

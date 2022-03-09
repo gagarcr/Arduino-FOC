@@ -3,7 +3,7 @@
 #if defined(__AVR_ATmega328P__) || defined(__AVR_ATmega168__) || defined(__AVR_ATmega328PB__)
 
 // set pwm frequency to 32KHz
-void _pinHighFrequency(const int pin){
+void _pinHighFrequency(const pin_size_t pin){
   //  High PWM frequency
   //  https://sites.google.com/site/qeewiki/books/avr-guide/timers-on-the-atmega328
   if (pin == 5 || pin == 6  ) {
@@ -21,7 +21,7 @@ void _pinHighFrequency(const int pin){
 // - Stepper motor - 2PWM setting
 // - hardware speciffic
 // supports Arudino/ATmega328
-void* _configure2PWM(long pwm_frequency,const int pinA, const int pinB) {
+void* _configure2PWM(long pwm_frequency, const pin_size_t pinA, const pin_size_t pinB) {
    //  High PWM frequency
    // - always max 32kHz
   _pinHighFrequency(pinA);
@@ -37,7 +37,7 @@ void* _configure2PWM(long pwm_frequency,const int pinA, const int pinB) {
 // - BLDC motor - 3PWM setting
 // - hardware speciffic
 // supports Arudino/ATmega328
-void* _configure3PWM(long pwm_frequency,const int pinA, const int pinB, const int pinC) {
+void* _configure3PWM(long pwm_frequency, const pin_size_t pinA, const pin_size_t pinB, const pin_size_t pinC) {
    //  High PWM frequency
    // - always max 32kHz
   _pinHighFrequency(pinA);
@@ -73,7 +73,7 @@ void _writeDutyCycle3PWM(float dc_a,  float dc_b, float dc_c, void* params){
 // - Stepper motor - 4PWM setting
 // - hardware speciffic
 // supports Arduino/ATmega328
-void* _configure4PWM(long pwm_frequency,const int pin1A, const int pin1B, const int pin2A, const int pin2B) {
+void* _configure4PWM(long pwm_frequency, const pin_size_t pin1A, const pin_size_t pin1B, const pin_size_t pin2A, const pin_size_t pin2B) {
    //  High PWM frequency
    // - always max 32kHz
   _pinHighFrequency(pin1A);
@@ -100,7 +100,7 @@ void _writeDutyCycle4PWM(float dc_1a,  float dc_1b, float dc_2a, float dc_2b, vo
 
 
 // function configuring pair of high-low side pwm channels, 32khz frequency and center aligned pwm
-int _configureComplementaryPair(int pinH, int pinL) {
+int _configureComplementaryPair(pin_size_t pinH, pin_size_t pinL) {
   if( (pinH == 5 && pinL == 6 ) || (pinH == 6 && pinL == 5 ) ){
     // configure the pwm phase-corrected mode
     TCCR0A = ((TCCR0A & 0b11111100) | 0x01);
@@ -131,7 +131,7 @@ int _configureComplementaryPair(int pinH, int pinL) {
 // - BLDC driver -  setting
 // - hardware specific
 // supports Arudino/ATmega328
-void* _configure6PWM(long pwm_frequency, float dead_zone, const int pinA_h, const int pinA_l,  const int pinB_h, const int pinB_l, const int pinC_h, const int pinC_l) {
+void* _configure6PWM(long pwm_frequency, float dead_zone, const pin_size_t pinA_h, const pin_size_t pinA_l, const pin_size_t pinB_h, const pin_size_t pinB_l, const pin_size_t pinC_h, const pin_size_t pinC_l) {
   //  High PWM frequency
   // - always max 32kHz
   int ret_flag = 0;
@@ -148,7 +148,7 @@ void* _configure6PWM(long pwm_frequency, float dead_zone, const int pinA_h, cons
 }
 
 // function setting the
-void _setPwmPair(int pinH, int pinL, float val, int dead_time)
+void _setPwmPair(pin_size_t pinH, pin_size_t pinL, float val, int dead_time)
 {
   int pwm_h = _constrain(val-dead_time/2,0,255);
   int pwm_l = _constrain(val+dead_time/2,0,255);

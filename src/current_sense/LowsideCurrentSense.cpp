@@ -5,7 +5,7 @@
 //  - phA   - A phase adc pin
 //  - phB   - B phase adc pin
 //  - phC   - C phase adc pin (optional)
-LowsideCurrentSense::LowsideCurrentSense(float _shunt_resistor, float _gain, int _pinA, int _pinB, int _pinC){
+LowsideCurrentSense::LowsideCurrentSense(float _shunt_resistor, float _gain, pin_size_t _pinA, pin_size_t _pinB, pin_size_t _pinC){
     pinA = _pinA;
     pinB = _pinB;
     pinC = _pinC;
@@ -45,24 +45,24 @@ void LowsideCurrentSense::calibrateOffsets(){
     // read the adc voltage 1000 times ( arbitrary number )
     for (int i = 0; i < calibration_rounds; i++) {
         _startADC3PinConversionLowSide();
-        if(_isset(pinA)) offset_ia += (_readADCVoltageLowSide(pinA, params));
-        if(_isset(pinB)) offset_ib += (_readADCVoltageLowSide(pinB, params));
-        if(_isset(pinC)) offset_ic += (_readADCVoltageLowSide(pinC, params));
+        if(_ispinset(pinA)) offset_ia += (_readADCVoltageLowSide(pinA, params));
+        if(_ispinset(pinB)) offset_ib += (_readADCVoltageLowSide(pinB, params));
+        if(_ispinset(pinC)) offset_ic += (_readADCVoltageLowSide(pinC, params));
         _delay(1);
     }
     // calculate the mean offsets
-    if(_isset(pinA)) offset_ia = offset_ia / calibration_rounds;
-    if(_isset(pinB)) offset_ib = offset_ib / calibration_rounds;
-    if(_isset(pinC)) offset_ic = offset_ic / calibration_rounds;
+    if(_ispinset(pinA)) offset_ia = offset_ia / calibration_rounds;
+    if(_ispinset(pinB)) offset_ib = offset_ib / calibration_rounds;
+    if(_ispinset(pinC)) offset_ic = offset_ic / calibration_rounds;
 }
 
 // read all three phase currents (if possible 2 or 3)
 PhaseCurrent_s LowsideCurrentSense::getPhaseCurrents(){
     PhaseCurrent_s current;
     _startADC3PinConversionLowSide();
-    current.a = (!_isset(pinA)) ? 0 : (_readADCVoltageLowSide(pinA, params) - offset_ia)*gain_a;// amps
-    current.b = (!_isset(pinB)) ? 0 : (_readADCVoltageLowSide(pinB, params) - offset_ib)*gain_b;// amps
-    current.c = (!_isset(pinC)) ? 0 : (_readADCVoltageLowSide(pinC, params) - offset_ic)*gain_c; // amps
+    current.a = (!_ispinset(pinA)) ? 0 : (_readADCVoltageLowSide(pinA, params) - offset_ia)*gain_a;// amps
+    current.b = (!_ispinset(pinB)) ? 0 : (_readADCVoltageLowSide(pinB, params) - offset_ib)*gain_b;// amps
+    current.c = (!_ispinset(pinC)) ? 0 : (_readADCVoltageLowSide(pinC, params) - offset_ic)*gain_c; // amps
     return current;
 }
 
@@ -161,7 +161,7 @@ int LowsideCurrentSense::driverAlign(float voltage){
     }
 
     // if phase C measured
-    if(_isset(pinC)){
+    if(_ispinset(pinC)){
         // set phase C active and phases A and B down
         driver->setPwm(0, 0, voltage);
         _delay(200);

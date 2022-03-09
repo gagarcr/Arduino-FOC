@@ -310,7 +310,7 @@ void _alignPWMTimers(pwmout_t *t1, pwmout_t *t2, pwmout_t *t3, pwmout_t *t4){
 }
 
 // // configure hardware 6pwm interface only one timer with inverted channels
-// HardwareTimer* _initHardware6PWMInterface(uint32_t PWM_freq, float dead_zone, int pinA_h, int pinA_l, int pinB_h, int pinB_l, int pinC_h, int pinC_l)
+// HardwareTimer* _initHardware6PWMInterface(uint32_t PWM_freq, float dead_zone, pin_size_t pinA_h, pin_size_t pinA_l, pin_size_t pinB_h, pin_size_t pinB_l, pin_size_t pinC_h, pin_size_t pinC_l)
 // {
 //   PinName uhPinName = digitalPinToPinName(pinA_h);
 //   PinName ulPinName = digitalPinToPinName(pinA_l);
@@ -354,7 +354,7 @@ void _alignPWMTimers(pwmout_t *t1, pwmout_t *t2, pwmout_t *t3, pwmout_t *t4){
 // // returns 0 if each pair of pwm channels has same channel
 // // returns 1 all the channels belong to the same timer - hardware inverted channels
 // // returns -1 if neither - avoid configuring - error!!!
-// int _interfaceType(const int pinA_h, const int pinA_l,  const int pinB_h, const int pinB_l, const int pinC_h, const int pinC_l){
+// int _interfaceType(const pin_size_t pinA_h, const pin_size_t pinA_l,  const pin_size_t pinB_h, const pin_size_t pinB_l, const pin_size_t pinC_h, const pin_size_t pinC_l){
 //   PinName nameAH = digitalPinToPinName(pinA_h);
 //   PinName nameAL = digitalPinToPinName(pinA_l);
 //   PinName nameBH = digitalPinToPinName(pinB_h);
@@ -380,7 +380,7 @@ void _alignPWMTimers(pwmout_t *t1, pwmout_t *t2, pwmout_t *t3, pwmout_t *t4){
 // function setting the high pwm frequency to the supplied pins
 // - Stepper motor - 2PWM setting
 // - hardware speciffic
-void* _configure2PWM(long pwm_frequency,const int pinA, const int pinB) {
+void* _configure2PWM(long pwm_frequency,const pin_size_t pinA, const pin_size_t pinB) {
   if( !pwm_frequency || !_isset(pwm_frequency) ) pwm_frequency = _PWM_FREQUENCY; // default frequency 25khz
   else pwm_frequency = _constrain(pwm_frequency, 0, _PWM_FREQUENCY_MAX); // constrain to 50kHz max
   
@@ -400,7 +400,7 @@ void* _configure2PWM(long pwm_frequency,const int pinA, const int pinB) {
 // function setting the high pwm frequency to the supplied pins
 // - BLDC motor - 3PWM setting
 // - hardware speciffic
-void* _configure3PWM(long pwm_frequency,const int pinA, const int pinB, const int pinC) {
+void* _configure3PWM(long pwm_frequency,const pin_size_t pinA, const pin_size_t pinB, const pin_size_t pinC) {
   if( !pwm_frequency || !_isset(pwm_frequency) ) pwm_frequency = _PWM_FREQUENCY; // default frequency 25khz
   else pwm_frequency = _constrain(pwm_frequency, 0, _PWM_FREQUENCY_MAX); // constrain to 50kHz max
 
@@ -423,7 +423,7 @@ void* _configure3PWM(long pwm_frequency,const int pinA, const int pinB, const in
 // function setting the high pwm frequency to the supplied pins
 // - Stepper motor - 4PWM setting
 // - hardware speciffic
-void* _configure4PWM(long pwm_frequency,const int pinA, const int pinB, const int pinC, const int pinD) {
+void* _configure4PWM(long pwm_frequency, const pin_size_t pinA, const pin_size_t pinB, const pin_size_t pinC, const pin_size_t pinD) {
   if( !pwm_frequency || !_isset(pwm_frequency) ) pwm_frequency = _PWM_FREQUENCY; // default frequency 25khz
   else pwm_frequency = _constrain(pwm_frequency, 0, _PWM_FREQUENCY_MAX); // constrain to 50kHz max
 
@@ -484,7 +484,7 @@ void _writeDutyCycle4PWM(float dc_1a,  float dc_1b, float dc_2a, float dc_2b, vo
 // Configuring PWM frequency, resolution and alignment
 // - BLDC driver - 6PWM setting
 // - hardware specific
-//void* _configure6PWM(long pwm_frequency, float dead_zone, const int pinA_h, const int pinA_l,  const int pinB_h, const int pinB_l, const int pinC_h, const int pinC_l){
+//void* _configure6PWM(long pwm_frequency, float dead_zone, const pin_size_t pinA_h, const pin_size_t pinA_l, const pin_size_t pinB_h, const pin_size_t pinB_l, const pin_size_t pinC_h, const pin_size_t pinC_l){
   // if( !pwm_frequency || !_isset(pwm_frequency) ) pwm_frequency = _PWM_FREQUENCY; // default frequency 25khz
   // else pwm_frequency = _constrain(pwm_frequency, 0, _PWM_FREQUENCY_MAX); // constrain to |%0kHz max
   // // center-aligned frequency is uses two periods

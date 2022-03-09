@@ -87,7 +87,7 @@ int GenericCurrentSense::driverAlign(float voltage){
     //     pinB = tmp_pinA;
     //     gain_a *= _sign(c.b);
     //     exit_flag = 2; // signal that pins have been switched
-    // }else if(_isset(pinC) &&  ac_ratio < 0.7f ){ // should be ~0.5
+    // }else if(_ispinset(pinC) &&  ac_ratio < 0.7f ){ // should be ~0.5
     //     // switch phase A and C
     //     int tmp_pinA = pinA;
     //     pinA = pinC;
@@ -123,7 +123,7 @@ int GenericCurrentSense::driverAlign(float voltage){
     //     pinA = tmp_pinB;
     //     gain_b *= _sign(c.a);
     //     exit_flag = 2; // signal that pins have been switched
-    // }else if(_isset(pinC) && bc_ratio < 0.7f ){ // should be ~0.5
+    // }else if(_ispinset(pinC) && bc_ratio < 0.7f ){ // should be ~0.5
     //     // switch phase A and C
     //     int tmp_pinB = pinB;
     //     pinB = pinC;
@@ -136,7 +136,7 @@ int GenericCurrentSense::driverAlign(float voltage){
     // }
 
     // // if phase C measured
-    // if(_isset(pinC)){
+    // if(_ispinset(pinC)){
     //     // set phase B active and phases A and C down
     //     driver->setPwm(0, 0, voltage);
     //     _delay(200);

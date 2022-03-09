@@ -20,7 +20,7 @@ class InlineCurrentSense: public CurrentSense{
       @param phB B phase adc pin
       @param phC C phase adc pin (optional)
     */
-    InlineCurrentSense(float shunt_resistor, float gain, int pinA, int pinB, int pinC = NOT_SET);
+    InlineCurrentSense(float shunt_resistor, float gain, pin_size_t pinA, pin_size_t pinB, pin_size_t pinC = PIN_NOT_SET);
 
     // CurrentSense interface implementing functions 
     int init() override;
@@ -42,9 +42,9 @@ class InlineCurrentSense: public CurrentSense{
   private:
   
     // hardware variables
-  	int pinA; //!< pin A analog pin for current measurement
-  	int pinB; //!< pin B analog pin for current measurement
-  	int pinC; //!< pin C analog pin for current measurement
+    pin_size_t pinA; //!< pin A analog pin for current measurement
+  	pin_size_t pinB; //!< pin B analog pin for current measurement
+  	pin_size_t pinC; //!< pin C analog pin for current measurement
 
     // gain variables
     float shunt_resistor; //!< Shunt resistor value

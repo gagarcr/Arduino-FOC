@@ -4,7 +4,7 @@
 #if defined(__AVR_ATmega32U4__)
 
 // set pwm frequency to 32KHz
-void _pinHighFrequency(const int pin){
+void _pinHighFrequency(const pin_size_t pin){
   //  High PWM frequency
   // reference： http://r6500.blogspot.com/2014/12/fast-pwm-on-arduino-leonardo.html
   if (pin == 3 || pin == 11 ) {
@@ -31,7 +31,7 @@ void _pinHighFrequency(const int pin){
 // function setting the high pwm frequency to the supplied pins
 // - Stepper motor - 2PWM setting
 // - hardware speciffic
-void* _configure2PWM(long pwm_frequency,const int pinA, const int pinB) {
+void* _configure2PWM(long pwm_frequency, const pin_size_t pinA, const pin_size_t pinB) {
    //  High PWM frequency
    // - always max 32kHz
   _pinHighFrequency(pinA);
@@ -46,7 +46,7 @@ void* _configure2PWM(long pwm_frequency,const int pinA, const int pinB) {
 // function setting the high pwm frequency to the supplied pins
 // - BLDC motor - 3PWM setting
 // - hardware speciffic
-void* _configure3PWM(long pwm_frequency,const int pinA, const int pinB, const int pinC) {
+void* _configure3PWM(long pwm_frequency, const pin_size_t pinA, const pin_size_t pinB, const pin_size_t pinC) {
    //  High PWM frequency
    // - always max 32kHz
   _pinHighFrequency(pinA);
@@ -62,7 +62,7 @@ void* _configure3PWM(long pwm_frequency,const int pinA, const int pinB, const in
 // function setting the pwm duty cycle to the hardware 
 // - Stepper motor - 2PWM setting
 // - hardware speciffic
-void _writeDutyCycle2PWM(float dc_a,  float dc_b, void* params){
+void _writeDutyCycle2PWM(float dc_a, float dc_b, void* params){
   // transform duty cycle from [0,1] to [0,255]
   analogWrite(((GenericDriverParams*)params)->pins[0], 255.0f*dc_a);
   analogWrite(((GenericDriverParams*)params)->pins[1], 255.0f*dc_b);
@@ -81,7 +81,7 @@ void _writeDutyCycle3PWM(float dc_a,  float dc_b, float dc_c, int pinA, void* pa
 // function setting the high pwm frequency to the supplied pins
 // - Stepper motor - 4PWM setting
 // - hardware speciffic
-void* _configure4PWM(long pwm_frequency,const int pin1A, const int pin1B, const int pin2A, const int pin2B) {
+void* _configure4PWM(long pwm_frequency,const pin_size_t pin1A, const pin_size_t pin1B, const pin_size_t pin2A, const pin_size_t pin2B) {
    //  High PWM frequency
    // - always max 32kHz
   _pinHighFrequency(pin1A);
@@ -110,7 +110,7 @@ void _writeDutyCycle4PWM(float dc_1a,  float dc_1b, float dc_2a, float dc_2b, vo
 
 
 // function configuring pair of high-low side pwm channels, 32khz frequency and center aligned pwm
-int _configureComplementaryPair(int pinH, int pinL) {
+int _configureComplementaryPair(pin_size_t pinH, pin_size_t pinL) {
   if( (pinH == 3 && pinL == 11 ) || (pinH == 11 && pinL == 3 ) ){
     // configure the pwm phase-corrected mode
     TCCR0A = ((TCCR0A & 0b11111100) | 0x01);
@@ -149,7 +149,7 @@ int _configureComplementaryPair(int pinH, int pinL) {
 // Configuring PWM frequency, resolution and alignment
 // - BLDC driver - 6PWM setting
 // - hardware specific
-void* _configure6PWM(long pwm_frequency, float dead_zone, const int pinA_h, const int pinA_l,  const int pinB_h, const int pinB_l, const int pinC_h, const int pinC_l) {
+void* _configure6PWM(long pwm_frequency, float dead_zone, const pin_size_t pinA_h, const pin_size_t pinA_l, const pin_size_t pinB_h, const pin_size_t pinB_l, const pin_size_t pinC_h, const pin_size_t pinC_l) {
   //  High PWM frequency
   // - always max 32kHz
   int ret_flag = 0;
@@ -166,7 +166,7 @@ void* _configure6PWM(long pwm_frequency, float dead_zone, const int pinA_h, cons
 }
 
 // function setting the 
-void _setPwmPair(int pinH, int pinL, float val, int dead_time)
+void _setPwmPair(pin_size_t pinH, pin_size_t pinL, float val, int dead_time)
 {
   int pwm_h = _constrain(val-dead_time/2,0,255);
   int pwm_l = _constrain(val+dead_time/2,0,255);

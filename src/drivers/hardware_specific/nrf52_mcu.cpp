@@ -34,19 +34,19 @@ static NRF_PWM_Type* pwms[PWM_COUNT] = {
 };
 
 typedef struct {
-  int pinA;
+  pin_size_t pinA;
   NRF_PWM_Type* mcpwm;
   uint16_t mcpwm_channel_sequence[4];
 } bldc_3pwm_motor_slots_t;
 
 typedef struct {
-  int pin1A;
+  pin_size_t pin1A;
   NRF_PWM_Type* mcpwm;
   uint16_t mcpwm_channel_sequence[4];
 } stepper_motor_slots_t;
 
 typedef struct {
-  int pinAH;
+  pin_size_t pinAH;
   NRF_PWM_Type* mcpwm1;
   NRF_PWM_Type* mcpwm2;
   uint16_t mcpwm_channel_sequence[8];
@@ -190,7 +190,7 @@ void* _configure3PWM(long pwm_frequency,const int pinA, const int pinB, const in
 // function setting the high pwm frequency to the supplied pins
 // - Stepper motor - 4PWM setting
 // - hardware speciffic
-void* _configure4PWM(long pwm_frequency, const int pinA, const int pinB, const int pinC, const int pinD) {
+void* _configure4PWM(long pwm_frequency, const pin_size_t pinA, const pin_size_t pinB, const pin_size_t pinC, const pin_size_t pinD) {
 
   if( !pwm_frequency || pwm_frequency == NOT_SET) pwm_frequency = PWM_FREQ; // default frequency 20khz for a resolution of 800
   else pwm_frequency = _constrain(pwm_frequency, 0, PWM_MAX_FREQ); // constrain to 62.5kHz max for a resolution of 256
