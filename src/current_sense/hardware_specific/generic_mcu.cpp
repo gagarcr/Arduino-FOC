@@ -1,6 +1,4 @@
 #include "../hardware_api.h"
-#include "api/Common.h"
-#include "common/foc_utils.h"
 
 // function reading an ADC value and returning the read voltage
 __attribute__((weak))  float _readADCVoltageInline(const pin_size_t pinA, const void* cs_params){
