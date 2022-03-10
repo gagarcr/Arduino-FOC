@@ -1,3 +1,4 @@
+//TODO: #ifdef _EFM32_
 #include "../hardware_api.h"
 #include "skm_output/skm_pwm.h"
 
@@ -10,6 +11,7 @@ static bool initialized = false;
 
 void _writeDutyCycle1PWM(float dc_a, pin_size_t pinA);
 
+//TODO: include in EFM32driver params
 static const SKM_PWM_TypeDef PWM_MOTOR0_A =
 {
  .gpioPort = SKM_MOTOR0_A_PORT,
@@ -78,35 +80,59 @@ void _setHighFrequency(const long freq, const pin_size_t pin)
 // function setting the high pwm frequency to the supplied pins
 // - Stepper motor - 2PWM setting
 // - hardware speciffic
-void _configure2PWM(long pwm_frequency, const pin_size_t pinA, const pin_size_t pinB) {
+void* _configure2PWM(long pwm_frequency, const pin_size_t pinA, const pin_size_t pinB) {
+  GenericDriverParams* params = new GenericDriverParams {
+    .pins = { pinA, pinB },
+    .pwm_frequency = pwm_frequency,
+    .dead_zone = 0
+  };
+
   if(!pwm_frequency || !_isset(pwm_frequency) ) pwm_frequency = _PWM_FREQUENCY; // default frequency 25khz
   else pwm_frequency = _constrain(pwm_frequency, 0, _PWM_FREQUENCY_MAX); // constrain to 50kHz max
 
   _setHighFrequency(pwm_frequency, pinA);
   _setHighFrequency(pwm_frequency, pinB);
+
+  return params;
 }
 
 // function setting the high pwm frequency to the supplied pins
 // - BLDC motor - 3PWM setting
 // - hardware speciffic
-void _configure3PWM(long pwm_frequency,const pin_size_t pinA, const pin_size_t pinB, const pin_size_t pinC) {
+void* _configure3PWM(long pwm_frequency,const pin_size_t pinA, const pin_size_t pinB, const pin_size_t pinC) {
+  GenericDriverParams* params = new GenericDriverParams {
+     .pins = { pinA, pinB, pinC },
+     .pwm_frequency = pwm_frequency,
+     .dead_zone = 0
+   };
+
   if(!pwm_frequency || !_isset(pwm_frequency) ) pwm_frequency = _PWM_FREQUENCY; // default frequency 25khz
   else pwm_frequency = _constrain(pwm_frequency, 0, _PWM_FREQUENCY_MAX); // constrain to 50kHz max
   _setHighFrequency(pwm_frequency, pinA);
   _setHighFrequency(pwm_frequency, pinB);
   _setHighFrequency(pwm_frequency, pinC);
+
+  return params;
 }
 
 // function setting the high pwm frequency to the supplied pins
 // - Stepper motor - 4PWM setting
 // - hardware speciffic
-void _configure4PWM(long pwm_frequency,const pin_size_t pinA, const pin_size_t pinB, const pin_size_t pinC, const pin_size_t pinD) {
+void* _configure4PWM(long pwm_frequency,const pin_size_t pinA, const pin_size_t pinB, const pin_size_t pinC, const pin_size_t pinD) {
+  GenericDriverParams* params = new GenericDriverParams {
+     .pins = { pinA, pinB, pinC, pinD },
+     .pwm_frequency = pwm_frequency,
+     .dead_zone = 0
+  };
+
   if(!pwm_frequency || !_isset(pwm_frequency) ) pwm_frequency = _PWM_FREQUENCY; // default frequency 25khz
   else pwm_frequency = _constrain(pwm_frequency, 0, _PWM_FREQUENCY_MAX); // constrain to 50kHz max
   _setHighFrequency(pwm_frequency, pinA);
   _setHighFrequency(pwm_frequency, pinB);
   _setHighFrequency(pwm_frequency, pinC);
   _setHighFrequency(pwm_frequency, pinD);
+
+  return params;
 }
 
 bool findPWMfromPin(pin_size_t pin, const SKM_PWM_TypeDef ** pwm)
@@ -147,10 +173,11 @@ void _writeDutyCycle1PWM(float dc_a, pin_size_t pinA)
 // function setting the pwm duty cycle to the hardware
 // - Stepper motor - 2PWM setting
 // - hardware speciffic
-void _writeDutyCycle2PWM(float dc_a,  float dc_b, pin_size_t pinA, pin_size_t pinB){
+void _writeDutyCycle2PWM(float dc_a,  float dc_b, void* params){
   const SKM_PWM_TypeDef * pinA_pwm, * pinB_pwm;
+  GenericDriverParams const * p = (GenericDriverParams*)params;
 
-  if ((findPWMfromPin(pinA, &pinA_pwm) && findPWMfromPin(pinB, &pinB_pwm) ) == false)
+  if ((findPWMfromPin(p->pins[0], &pinA_pwm) && findPWMfromPin(p->pins[1], &pinB_pwm) ) == false)
   {
     EFM_ASSERT(0);
     return;
@@ -165,10 +192,11 @@ void _writeDutyCycle2PWM(float dc_a,  float dc_b, pin_size_t pinA, pin_size_t pi
 // function setting the pwm duty cycle to the hardware
 // - BLDC motor - 3PWM setting
 // - hardware speciffic
-void _writeDutyCycle3PWM(float dc_a,  float dc_b, float dc_c, pin_size_t pinA, pin_size_t pinB, pin_size_t pinC){
+void _writeDutyCycle3PWM(float dc_a,  float dc_b, float dc_c, void* params){
    const SKM_PWM_TypeDef * pinA_pwm, * pinB_pwm, * pinC_pwm;
+   GenericDriverParams const * p = (GenericDriverParams*)params;
 
-   if ((findPWMfromPin(pinA, &pinA_pwm) && findPWMfromPin(pinB, &pinB_pwm) && findPWMfromPin(pinC, &pinC_pwm) ) == false)
+   if ((findPWMfromPin(p->pins[0], &pinA_pwm) && findPWMfromPin(p->pins[1], &pinB_pwm) && findPWMfromPin(p->pins[2], &pinC_pwm) ) == false)
    {
      EFM_ASSERT(0);
      return;
@@ -181,11 +209,13 @@ void _writeDutyCycle3PWM(float dc_a,  float dc_b, float dc_c, pin_size_t pinA, p
 
 // function setting the pwm duty cycle to the hardware
 // - Stepper motor - 4PWM setting
-// - hardware speciffic
-void _writeDutyCycle4PWM(float dc_1a,  float dc_1b, float dc_2a, float dc_2b, pin_size_t pin1A, pin_size_t pin1B, pin_size_t pin2A, pin_size_t pin2B){
+// - hardware specific
+void _writeDutyCycle4PWM(float dc_1a,  float dc_1b, float dc_2a, float dc_2b, void* params){
   // transform duty cycle from [0,1] to [0,255]
   EFM_ASSERT(0); //TODO
-  UNUSED(dc_1a); UNUSED(dc_1b); UNUSED(dc_2a); UNUSED(dc_2b); UNUSED(pin1A); UNUSED(pin1B); UNUSED(pin2A); UNUSED(pin2B);
+  GenericDriverParams const * p = (GenericDriverParams*)params;
+  UNUSED(*p);
+  UNUSED(dc_1a); UNUSED(dc_1b); UNUSED(dc_2a); UNUSED(dc_2b);
   //analogWrite(pin1A, 255.0f*dc_1a);
   //analogWrite(pin1B, 255.0f*dc_1b);
   //analogWrite(pin2A, 255.0f*dc_2a);
