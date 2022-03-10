@@ -1,8 +1,7 @@
 //TODO: #ifdef _EFM32_
+#ifdef EFM32JG12B500F1024GM48
 #include "../hardware_api.h"
 #include "skm_output/skm_pwm.h"
-
-#if defined(__arm__) && 1
 
 #define _PWM_FREQUENCY 25000 // s25khz
 #define _PWM_FREQUENCY_MAX 50000 // 50khz
