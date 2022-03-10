@@ -10,7 +10,7 @@ static uint16_t a = 0xFFFF, b = 0xFFFF, c = 0xFFFF; // updated by adcStopWithDMA
 static SAMDCurrentSenseADCDMA instance;
 
 // function configuring low-side current sensing 
-void* _configureADCLowSide(const void* driver_params, const int pinA,const int pinB,const int pinC)
+void* _configureADCLowSide(const void* driver_params, const pin_size_t pinA, const pin_size_t pinB,const pin_size_t pinC)
 {
   _UNUSED(driver_params);
 
@@ -35,7 +35,7 @@ void _startADC3PinConversionLowSide()
  * 
  * @param pinA - the arduino pin to be read (it has to be ADC pin)
  */
-float _readADCVoltageLowSide(const int pinA, const void* cs_params)
+float _readADCVoltageLowSide(const pin_size_t pinA, const void* cs_params)
 {
   _UNUSED(cs_params);
 
@@ -99,7 +99,7 @@ SAMDCurrentSenseADCDMA::SAMDCurrentSenseADCDMA()
 {
 }
 
-void SAMDCurrentSenseADCDMA::init(int pinA, int pinB, int pinC, int pinAREF, float voltageAREF, uint32_t adcBits, uint32_t channelDMA)
+void SAMDCurrentSenseADCDMA::init(pin_size_t pinA, pin_size_t pinB, pin_size_t pinC, pin_size_t pinAREF, float voltageAREF, uint32_t adcBits, uint32_t channelDMA)
 {
   this->pinA = pinA;
   this->pinB = pinB;
@@ -129,7 +129,7 @@ bool SAMDCurrentSenseADCDMA::readResults(uint16_t & a, uint16_t & b, uint16_t & 
   uint32_t ainB = g_APinDescription[pinB].ulADCChannelNumber;
   a = adcBuffer[ainA];
   b = adcBuffer[ainB];
-  if(_isset(pinC))
+  if(_ispinset(pinC))
   {
     uint32_t ainC = g_APinDescription[pinC].ulADCChannelNumber;
     c = adcBuffer[ainC];
@@ -153,7 +153,7 @@ void SAMDCurrentSenseADCDMA::initPins(){
   uint32_t ainB = g_APinDescription[pinB].ulADCChannelNumber;
   firstAIN = min(ainA, ainB);
   lastAIN = max(ainA, ainB);
-  if( _isset(pinC) ) 
+  if( _ispinset(pinC) )
   {
     uint32_t ainC = g_APinDescription[pinC].ulADCChannelNumber;
     pinMode(pinC, INPUT);

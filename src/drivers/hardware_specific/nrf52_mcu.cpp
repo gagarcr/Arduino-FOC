@@ -118,7 +118,7 @@ void _configureHwPwm(NRF_PWM_Type* mcpwm1,  NRF_PWM_Type* mcpwm2){
 
 
 // can we support it using the generic driver on this MCU? Commented out to fall back to generic driver for 2-pwm
-// void* _configure2PWM(long pwm_frequency, const int pinA, const int pinB) {
+// void* _configure2PWM(long pwm_frequency, const pin_size_t pinA, const pin_size_t pinB) {
 //   return SIMPLEFOC_DRIVER_INIT_FAILED; // not supported
 // }
 
@@ -128,7 +128,7 @@ void _configureHwPwm(NRF_PWM_Type* mcpwm1,  NRF_PWM_Type* mcpwm2){
 // function setting the high pwm frequency to the supplied pins
 // - BLDC motor - 3PWM setting
 // - hardware speciffic
-void* _configure3PWM(long pwm_frequency,const int pinA, const int pinB, const int pinC) {
+void* _configure3PWM(long pwm_frequency,const pin_size_t pinA, const pin_size_t pinB, const pin_size_t pinC) {
 
   if( !pwm_frequency || pwm_frequency == NOT_SET) pwm_frequency = PWM_FREQ; // default frequency 20khz for a resolution of 800
   else pwm_frequency = _constrain(pwm_frequency, 0, PWM_MAX_FREQ); // constrain to 62.5kHz max for a resolution of 256  
@@ -285,7 +285,7 @@ void _writeDutyCycle4PWM(float dc_1a,  float dc_1b, float dc_2a, float dc_2b, vo
 // - BLDC driver - 6PWM setting
 // - hardware specific
 */
-void* _configure6PWM(long pwm_frequency, float dead_zone, const int pinA_h, const int pinA_l,  const int pinB_h, const int pinB_l, const int pinC_h, const int pinC_l){
+void* _configure6PWM(long pwm_frequency, float dead_zone, const pin_size_t pinA_h, const pin_size_t pinA_l, const pin_size_t pinB_h, const pin_size_t pinB_l, const pin_size_t pinC_h, const pin_size_t pinC_l){
   
   if( !pwm_frequency || pwm_frequency == NOT_SET) pwm_frequency = PWM_FREQ; // default frequency 20khz - centered pwm has twice lower frequency for a resolution of 400
   else pwm_frequency = _constrain(pwm_frequency*2, 0, PWM_MAX_FREQ); // constrain to 62.5kHz max => 31.25kHz for a resolution of 256  

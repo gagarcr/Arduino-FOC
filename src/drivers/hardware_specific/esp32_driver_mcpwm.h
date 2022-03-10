@@ -30,7 +30,7 @@
 // structure containing motor slot configuration
 // this library supports up to 4 motors
 typedef struct {
-  int pinA;
+  pin_size_t pinA;
   mcpwm_dev_t* mcpwm_num;
   mcpwm_unit_t mcpwm_unit;
   mcpwm_operator_t mcpwm_operator;
@@ -40,7 +40,7 @@ typedef struct {
 } bldc_3pwm_motor_slots_t;
 
 typedef struct {
-  int pin1A;
+  pin_size_t pin1A;
   mcpwm_dev_t* mcpwm_num;
   mcpwm_unit_t mcpwm_unit;
   mcpwm_operator_t mcpwm_operator1;
@@ -52,7 +52,7 @@ typedef struct {
 } stepper_4pwm_motor_slots_t;
 
 typedef struct {
-  int pin1pwm;
+  pin_size_t pin1pwm;
   mcpwm_dev_t* mcpwm_num;
   mcpwm_unit_t mcpwm_unit;
   mcpwm_operator_t mcpwm_operator;
@@ -61,7 +61,7 @@ typedef struct {
 } stepper_2pwm_motor_slots_t;
 
 typedef struct {
-  int pinAH;
+  pin_size_t pinAH;
   mcpwm_dev_t* mcpwm_num;
   mcpwm_unit_t mcpwm_unit;
   mcpwm_operator_t mcpwm_operator1;

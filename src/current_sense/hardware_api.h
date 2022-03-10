@@ -12,7 +12,7 @@
 // will be returned as a void pointer from the _configureADCx functions
 // will be provided to the _readADCVoltageX() as a void pointer
 typedef struct GenericCurrentSenseParams {
-  int pins[3];
+  pin_size_t pins[3];
   float adc_voltage_conv;
 } GenericCurrentSenseParams;
 

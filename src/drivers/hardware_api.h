@@ -14,7 +14,7 @@
 // will be returned as a void pointer from the _configurexPWM functions
 // will be provided to the _writeDutyCyclexPWM() as a void pointer
 typedef struct GenericDriverParams {
-  int pins[6];
+  pin_size_t pins[6];
   long pwm_frequency;
   float dead_zone;
 } GenericDriverParams;

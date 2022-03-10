@@ -18,7 +18,7 @@
 
 
 typedef struct ESP32MCPWMCurrentSenseParams {
-  int pins[3];
+  pin_size_t pins[3];
   float adc_voltage_conv;
   mcpwm_unit_t mcpwm_unit;
   int buffer_index;
@@ -29,18 +29,18 @@ typedef struct ESP32MCPWMCurrentSenseParams {
  *  Inline adc reading implementation 
 */
 // function reading an ADC value and returning the read voltage
-float _readADCVoltageInline(const int pinA, const void* cs_params){
+float _readADCVoltageInline(const pin_size_t pinA, const void* cs_params){
   uint32_t raw_adc = adcRead(pinA);
   return raw_adc * ((ESP32MCPWMCurrentSenseParams*)cs_params)->adc_voltage_conv;
 }
 
 // function reading an ADC value and returning the read voltage
-void* _configureADCInline(const void* driver_params, const int pinA, const int pinB, const int pinC){
+void* _configureADCInline(const void* driver_params, const pin_size_t pinA, const pin_size_t pinB, const pin_size_t pinC){
   _UNUSED(driver_params);
 
-  if( _isset(pinA) ) pinMode(pinA, INPUT);
-  if( _isset(pinB) ) pinMode(pinB, INPUT);
-  if( _isset(pinC) ) pinMode(pinC, INPUT);
+  if( _ispinset(pinA) ) pinMode(pinA, INPUT);
+  if( _ispinset(pinB) ) pinMode(pinB, INPUT);
+  if( _ispinset(pinC) ) pinMode(pinC, INPUT);
 
   ESP32MCPWMCurrentSenseParams* params = new ESP32MCPWMCurrentSenseParams {
     .pins = { pinA, pinB, pinC },
@@ -67,7 +67,7 @@ uint32_t adc_buffer[2][6]={0};
 int adc_read_index[2]={0};
 
 // function reading an ADC value and returning the read voltage
-float _readADCVoltageLowSide(const int pin, const void* cs_params){
+float _readADCVoltageLowSide(const pin_size_t pin, const void* cs_params){
 
   mcpwm_unit_t unit = ((ESP32MCPWMCurrentSenseParams*)cs_params)->mcpwm_unit;
   int buffer_index = ((ESP32MCPWMCurrentSenseParams*)cs_params)->buffer_index;
@@ -82,17 +82,18 @@ float _readADCVoltageLowSide(const int pin, const void* cs_params){
 }
 
 // function configuring low-side current sensing 
-void* _configureADCLowSide(const void* driver_params, const int pinA,const int pinB,const int pinC){
+void* _configureADCLowSide(const void* driver_params, const pin_size_t pinA,const pin_size_t pinB,const pin_size_t pinC){
   
   mcpwm_unit_t unit = ((ESP32MCPWMDriverParams*)driver_params)->mcpwm_unit;
   int index_start = adc_pin_count[unit];
-  if( _isset(pinA) ) adc_pins[unit][adc_pin_count[unit]++] = pinA;
-  if( _isset(pinB) ) adc_pins[unit][adc_pin_count[unit]++] = pinB;
-  if( _isset(pinC) ) adc_pins[unit][adc_pin_count[unit]++] = pinC;
+  if( _ispinset(pinA) ) adc_pins[unit][adc_pin_count[unit]++] = pinA;
+  if( _ispinset(pinB) ) adc_pins[unit][adc_pin_count[unit]++] = pinB;
+  if( _ispinset(pinC) ) adc_pins[unit][adc_pin_count[unit]++] = pinC;
 
+  if( _ispinset(pinA) ) pinMode(pinA, INPUT);
+  if( _ispinset(pinB) ) pinMode(pinB, INPUT);
+  if( _ispinset(pinC) ) pinMode(pinC, INPUT);
   if( _isset(pinA) ) pinMode(pinA, INPUT);
-  if( _isset(pinB) ) pinMode(pinB, INPUT);
-  if( _isset(pinC) ) pinMode(pinC, INPUT);
 
   ESP32MCPWMCurrentSenseParams* params = new ESP32MCPWMCurrentSenseParams {
     .pins = { pinA, pinB, pinC },

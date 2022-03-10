@@ -26,7 +26,7 @@ uint16_t adcBuffer2[ADC_BUF_LEN_2] = {0}; // Buffer for store the results of the
 
 // function reading an ADC value and returning the read voltage
 // As DMA is being used just return the DMA result
-float _readADCVoltageInline(const int pin, const void* cs_params){
+float _readADCVoltageInline(const pin_size_t pin, const void* cs_params){
   uint32_t raw_adc = 0;
   if(pin == PA2)  // = ADC1_IN3 = phase U (OP1_OUT) on B-G431B-ESC1
     raw_adc = adcBuffer1[1];
@@ -80,7 +80,7 @@ void MX_DMA1_Init(ADC_HandleTypeDef *hadc, DMA_HandleTypeDef *hdma_adc, DMA_Chan
   __HAL_LINKDMA(hadc, DMA_Handle, *hdma_adc);
 }
 
-void* _configureADCInline(const void* driver_params, const int pinA,const int pinB,const int pinC){
+void* _configureADCInline(const void* driver_params, const pin_size_t pinA, const pin_size_t pinB, const pin_size_t pinC){
   _UNUSED(driver_params);
 
   HAL_Init();

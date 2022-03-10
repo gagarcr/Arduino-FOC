@@ -21,7 +21,7 @@ __attribute__((weak)) void* _configure2PWM(long pwm_frequency,const pin_size_t p
 // - BLDC motor - 3PWM setting
 // - hardware speciffic
 // in generic case dont do anything
-__attribute__((weak)) void* _configure3PWM(long pwm_frequency,const int pinA, const int pinB, const int pinC) {
+__attribute__((weak)) void* _configure3PWM(long pwm_frequency,const pin_size_t pinA, const pin_size_t pinB, const pin_size_t pinC) {
   GenericDriverParams* params = new GenericDriverParams {
     .pins = { pinA, pinB, pinC },
     .pwm_frequency = pwm_frequency
@@ -34,7 +34,7 @@ __attribute__((weak)) void* _configure3PWM(long pwm_frequency,const int pinA, co
 // - Stepper motor - 4PWM setting
 // - hardware speciffic
 // in generic case dont do anything
-__attribute__((weak)) void* _configure4PWM(long pwm_frequency, const int pin1A, const int pin1B, const int pin2A, const int pin2B) {
+__attribute__((weak)) void* _configure4PWM(long pwm_frequency, const pin_size_t pin1A, const pin_size_t pin1B, const pin_size_t pin2A, const pin_size_t pin2B) {
   GenericDriverParams* params = new GenericDriverParams {
     .pins = { pin1A, pin1B, pin2A, pin2B },
     .pwm_frequency = pwm_frequency
@@ -45,7 +45,7 @@ __attribute__((weak)) void* _configure4PWM(long pwm_frequency, const int pin1A, 
 // Configuring PWM frequency, resolution and alignment
 // - BLDC driver - 6PWM setting
 // - hardware specific
-__attribute__((weak)) void* _configure6PWM(long pwm_frequency, float dead_zone, const int pinA_h, const int pinA_l,  const int pinB_h, const int pinB_l, const int pinC_h, const int pinC_l){
+__attribute__((weak)) void* _configure6PWM(long pwm_frequency, float dead_zone, const pin_size_t pinA_h, const pin_size_t pinA_l, const pin_size_t pinB_h, const pin_size_t pinB_l, const pin_size_t pinC_h, const pin_size_t pinC_l){
   _UNUSED(pwm_frequency);
   _UNUSED(dead_zone);
   _UNUSED(pinA_h);
