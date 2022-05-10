@@ -47,6 +47,41 @@ static const SKM_PWM_TypeDef PWM_MOTOR0_C =
 };
 
 
+static const SKM_PWM_TypeDef PWM_MOTOR1_A =
+{
+ .gpioPort = SKM_MOTOR1_A_PORT,
+ .gpioPin = SKM_MOTOR1_A_PIN,
+ .gpioInverted = SKM_MOTOR1_A_INVERTED,                /* Enable high */
+ .timer = SKM_MOTOR1_A_TIMER,
+ .timerCh = SKM_MOTOR1_A_TIMER_CH,
+ .timerChLoc = SKM_MOTOR1_A_TIMER_CH_LOC,
+ .timerInverted = SKM_MOTOR1_A_TIMER_CH_INV            /* Channel 0 not inverted */
+};
+
+
+static const SKM_PWM_TypeDef PWM_MOTOR1_B =
+{
+ .gpioPort = SKM_MOTOR1_B_PORT,
+ .gpioPin = SKM_MOTOR1_B_PIN,
+ .gpioInverted = SKM_MOTOR1_B_INVERTED,                /* Enable high */
+ .timer = SKM_MOTOR1_B_TIMER,
+ .timerCh = SKM_MOTOR1_B_TIMER_CH,
+ .timerChLoc = SKM_MOTOR1_B_TIMER_CH_LOC,
+ .timerInverted = SKM_MOTOR1_B_TIMER_CH_INV            /* Channel 0 not inverted */
+};
+
+
+static const SKM_PWM_TypeDef PWM_MOTOR1_C =
+{
+ .gpioPort = SKM_MOTOR1_C_PORT,
+ .gpioPin = SKM_MOTOR1_C_PIN,
+ .gpioInverted = SKM_MOTOR1_C_INVERTED,                /* Enable high */
+ .timer = SKM_MOTOR1_C_TIMER,
+ .timerCh = SKM_MOTOR1_C_TIMER_CH,
+ .timerChLoc = SKM_MOTOR1_C_TIMER_CH_LOC,
+ .timerInverted = SKM_MOTOR1_C_TIMER_CH_INV            /* Channel 0 not inverted */
+};
+
 //TODO: ASSERT timerA == timerB == timerC
 
 //  configure High PWM frequency
@@ -54,6 +89,7 @@ void _setHighFrequency(const long freq, const pin_size_t pin)
 {
   if (initialized == false)
   {
+
     skm_pwm_init(&PWM_MOTOR0_A);
     skm_pwm_init(&PWM_MOTOR0_B);
     skm_pwm_init(&PWM_MOTOR0_C);
@@ -61,9 +97,20 @@ void _setHighFrequency(const long freq, const pin_size_t pin)
     skm_pwm_enableOutChannel(&PWM_MOTOR0_B, true);
     skm_pwm_enableOutChannel(&PWM_MOTOR0_C, true);
 
+    skm_pwm_init(&PWM_MOTOR1_A);
+    skm_pwm_init(&PWM_MOTOR1_B);
+    skm_pwm_init(&PWM_MOTOR1_C);
+    skm_pwm_enableOutChannel(&PWM_MOTOR1_A, true);
+    skm_pwm_enableOutChannel(&PWM_MOTOR1_B, true);
+    skm_pwm_enableOutChannel(&PWM_MOTOR1_C, true);
+
     initialized = true;
 
+    //skm_pwm_setFrequency(&PWM_MOTOR0_A, freq);
     //skm_pwm_setValue_u16(&PWM_MOTOR0_A, 65535);
+    //skm_pwm_setValue_u16(&PWM_MOTOR0_B, 65535);
+    //skm_pwm_setValue_u16(&PWM_MOTOR0_C, 0);
+
     //while(1)
     //{
 
@@ -73,6 +120,8 @@ void _setHighFrequency(const long freq, const pin_size_t pin)
   _writeDutyCycle1PWM(0, pin);
   //analogWrite(pin, 0);
   skm_pwm_setFrequency(&PWM_MOTOR0_A, freq); // All share same timer, so we can allways use A.
+  skm_pwm_setFrequency(&PWM_MOTOR1_A, freq); // All share same timer, so we can allways use A.
+
 }
 
 
@@ -151,6 +200,21 @@ bool findPWMfromPin(pin_size_t pin, const SKM_PWM_TypeDef ** pwm)
     *pwm = &PWM_MOTOR0_C;
     return true;
   }
+  else if ((pin.port == PWM_MOTOR1_A.gpioPort) && (pin.pin == PWM_MOTOR1_A.gpioPin))
+  {
+    *pwm = &PWM_MOTOR1_A;
+    return true;
+  }
+  else if ((pin.port == PWM_MOTOR1_B.gpioPort) && (pin.pin == PWM_MOTOR1_B.gpioPin))
+  {
+    *pwm = &PWM_MOTOR1_B;
+    return true;
+  }
+  else if ((pin.port == PWM_MOTOR1_C.gpioPort) && (pin.pin == PWM_MOTOR1_C.gpioPin))
+  {
+    *pwm = &PWM_MOTOR1_C;
+    return true;
+  }
 
   return false;
 }
@@ -171,7 +235,7 @@ void _writeDutyCycle1PWM(float dc_a, pin_size_t pinA)
 
 // function setting the pwm duty cycle to the hardware
 // - Stepper motor - 2PWM setting
-// - hardware speciffic
+// - hardware specific
 void _writeDutyCycle2PWM(float dc_a,  float dc_b, void* params){
   const SKM_PWM_TypeDef * pinA_pwm, * pinB_pwm;
   GenericDriverParams const * p = (GenericDriverParams*)params;
