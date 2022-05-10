@@ -35,11 +35,8 @@ class BLDCDriver3PWM: public BLDCDriver
     pin_size_t pwmA; //!< phase A pwm pin number
     pin_size_t pwmB; //!< phase B pwm pin number
     pin_size_t pwmC; //!< phase C pwm pin number
-    bool enableA_pin_en = true;
     pin_size_t enableA_pin; //!< enable pin number
-    bool enableB_pin_en = true;
     pin_size_t enableB_pin; //!< enable pin number
-    bool enableC_pin_en = true;
     pin_size_t enableC_pin; //!< enable pin number
     bool enable_active_high = true;
 
