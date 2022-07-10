@@ -3,8 +3,8 @@
 #include "../hardware_api.h"
 #include "skm_output/skm_pwm.h"
 
-#define _PWM_FREQUENCY 25000 // s25khz
-#define _PWM_FREQUENCY_MAX 50000 // 50khz
+#define _PWM_FREQUENCY 100000 // s25khz
+#define _PWM_FREQUENCY_MAX 100000 // 50khz
 
 static bool initialized = false;
 
