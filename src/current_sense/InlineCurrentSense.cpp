@@ -78,7 +78,7 @@ int InlineCurrentSense::driverAlign(float voltage){
     int exit_flag = 1;
     if(skip_align) return exit_flag;
 
-    if(_isset(pinA)){
+    if(_ispinset(pinA)){
         // set phase A active and phases B and C down
         driver->setPwm(voltage, 0, 0);
         _delay(2000);
@@ -95,20 +95,20 @@ int InlineCurrentSense::driverAlign(float voltage){
         // align phase A
         float ab_ratio = c.b ? fabs(c.a / c.b) : 0;
         float ac_ratio = c.c ? fabs(c.a / c.c) : 0;
-        if(_isset(pinB) && ab_ratio > 1.5f ){ // should be ~2
+        if(_ispinset(pinB) && ab_ratio > 1.5f ){ // should be ~2
             gain_a *= _sign(c.a);
-        }else if(_isset(pinC) && ac_ratio > 1.5f ){ // should be ~2
+        }else if(_ispinset(pinC) && ac_ratio > 1.5f ){ // should be ~2
             gain_a *= _sign(c.a);
-        }else if(_isset(pinB) && ab_ratio < 0.7f ){ // should be ~0.5
+        }else if(_ispinset(pinB) && ab_ratio < 0.7f ){ // should be ~0.5
             // switch phase A and B
-            int tmp_pinA = pinA;
+            pin_size_t tmp_pinA = pinA;
             pinA = pinB;
             pinB = tmp_pinA;
             gain_a *= _sign(c.b);
             exit_flag = 2; // signal that pins have been switched
-        }else if(_isset(pinC) &&  ac_ratio < 0.7f ){ // should be ~0.5
+        }else if(_ispinset(pinC) &&  ac_ratio < 0.7f ){ // should be ~0.5
             // switch phase A and C
-            int tmp_pinA = pinA;
+            pin_size_t tmp_pinA = pinA;
             pinA = pinC;
             pinC= tmp_pinA;
             gain_a *= _sign(c.c);
@@ -119,7 +119,7 @@ int InlineCurrentSense::driverAlign(float voltage){
         }
     }
 
-    if(_isset(pinB)){
+    if(_ispinset(pinB)){
         // set phase B active and phases A and C down
         driver->setPwm(0, voltage, 0);
         _delay(200);
@@ -135,20 +135,20 @@ int InlineCurrentSense::driverAlign(float voltage){
         driver->setPwm(0, 0, 0);
         float ba_ratio = c.a ? fabs(c.b / c.a) : 0;
         float bc_ratio = c.c ? fabs(c.b / c.c) : 0;
-        if(_isset(pinA) && ba_ratio > 1.5f ){ // should be ~2
+        if(_ispinset(pinA) && ba_ratio > 1.5f ){ // should be ~2
             gain_b *= _sign(c.b);
-        }else if(_isset(pinC) && bc_ratio > 1.5f ){ // should be ~2
+        }else if(_ispinset(pinC) && bc_ratio > 1.5f ){ // should be ~2
             gain_b *= _sign(c.b);
-        }else if(_isset(pinA) && ba_ratio < 0.7f ){ // it should be ~0.5
+        }else if(_ispinset(pinA) && ba_ratio < 0.7f ){ // it should be ~0.5
             // switch phase A and B
-            int tmp_pinB = pinB;
+            pin_size_t tmp_pinB = pinB;
             pinB = pinA;
             pinA = tmp_pinB;
             gain_b *= _sign(c.a);
             exit_flag = 2; // signal that pins have been switched
-        }else if(_isset(pinC) && bc_ratio < 0.7f ){ // should be ~0.5
+        }else if(_ispinset(pinC) && bc_ratio < 0.7f ){ // should be ~0.5
             // switch phase A and C
-            int tmp_pinB = pinB;
+            pin_size_t tmp_pinB = pinB;
             pinB = pinC;
             pinC = tmp_pinB;
             gain_b *= _sign(c.c);
@@ -176,20 +176,20 @@ int InlineCurrentSense::driverAlign(float voltage){
         driver->setPwm(0, 0, 0);
         float ca_ratio = c.a ? fabs(c.c / c.a) : 0;
         float cb_ratio = c.b ? fabs(c.c / c.b) : 0;
-        if(_isset(pinA) && ca_ratio > 1.5f ){ // should be ~2
+        if(_ispinset(pinA) && ca_ratio > 1.5f ){ // should be ~2
             gain_c *= _sign(c.c);
-        }else if(_isset(pinB) && cb_ratio > 1.5f ){ // should be ~2
+        }else if(_ispinset(pinB) && cb_ratio > 1.5f ){ // should be ~2
             gain_c *= _sign(c.c);
-        }else if(_isset(pinA) && ca_ratio < 0.7f ){ // it should be ~0.5
+        }else if(_ispinset(pinA) && ca_ratio < 0.7f ){ // it should be ~0.5
             // switch phase A and C
-            int tmp_pinC = pinC;
+            pin_size_t tmp_pinC = pinC;
             pinC = pinA;
             pinA = tmp_pinC;
             gain_c *= _sign(c.a);
             exit_flag = 2; // signal that pins have been switched
-        }else if(_isset(pinB) && cb_ratio < 0.7f ){ // should be ~0.5
+        }else if(_ispinset(pinB) && cb_ratio < 0.7f ){ // should be ~0.5
             // switch phase B and C
-            int tmp_pinC = pinC;
+            pin_size_t tmp_pinC = pinC;
             pinC = pinB;
             pinB = tmp_pinC;
             gain_c *= _sign(c.b);
